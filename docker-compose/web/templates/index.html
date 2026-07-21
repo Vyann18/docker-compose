@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Dashboard</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f4f7fb;
+            padding:40px;
+            color:#333;
+        }
+
+        .container{
+            max-width:1000px;
+            margin:auto;
+        }
+
+        .header{
+            margin-bottom:30px;
+        }
+
+        .header h1{
+            font-size:36px;
+            color:#1f2937;
+            margin-bottom:8px;
+        }
+
+        .header p{
+            color:#6b7280;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:16px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom:30px;
+        }
+
+        .form-title{
+            margin-bottom:20px;
+            font-size:22px;
+            color:#111827;
+        }
+
+        .form-group{
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        input{
+            flex:1;
+            min-width:220px;
+            padding:14px;
+            border:1px solid #d1d5db;
+            border-radius:10px;
+            font-size:15px;
+            outline:none;
+            transition:0.2s;
+        }
+
+        input:focus{
+            border-color:#2563eb;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:14px 24px;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:15px;
+            font-weight:bold;
+            transition:0.2s;
+        }
+
+        button:hover{
+            background:#1d4ed8;
+        }
+
+        .table-title{
+            margin-bottom:20px;
+            font-size:22px;
+            color:#111827;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            overflow:hidden;
+            border-radius:12px;
+        }
+
+        thead{
+            background:#2563eb;
+            color:white;
+        }
+
+        th{
+            padding:16px;
+            text-align:left;
+            font-size:14px;
+        }
+
+        td{
+            padding:16px;
+            border-bottom:1px solid #e5e7eb;
+        }
+
+        tbody tr{
+            background:white;
+            transition:0.2s;
+        }
+
+        tbody tr:hover{
+            background:#f9fafb;
+        }
+
+        .price{
+            font-weight:bold;
+            color:#059669;
+        }
+
+        .empty{
+            text-align:center;
+            padding:30px;
+            color:#9ca3af;
+        }
+
+        .footer{
+            text-align:center;
+            margin-top:30px;
+            color:#9ca3af;
+            font-size:14px;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:20px;
+            }
+
+            .form-group{
+                flex-direction:column;
+            }
+
+            button{
+                width:100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Inventory Management</h1>
+        <p>Docker Compose Multi-Container Application</p>
+    </div>
+
+    <div class="card">
+        <h2 class="form-title">Tambah Barang</h2>
+
+        <form method="POST" action="/tambah">
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    name="nama" 
+                    placeholder="Masukkan nama barang"
+                    required
+                >
+
+                <input 
+                    type="number" 
+                    name="harga" 
+                    placeholder="Masukkan harga"
+                    required
+                >
+
+                <button type="submit">
+                    + Tambah
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2 class="table-title">Daftar Barang</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Barang</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% if barang %}
+
+                    {% for item in barang %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.nama }}</td>
+                        <td class="price">
+                            Rp {{ "{:,}".format(item.harga).replace(",", ".") }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+                        <td colspan="3" class="empty">
+                            Belum ada data barang
+                        </td>
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="footer">
+        Docker Compose • Flask • PostgreSQL
+    </div>
+
+</div>
+
+</body>
+</html>
